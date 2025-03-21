@@ -1,0 +1,18 @@
+rootUser: admin
+rootPassword: adminadmin
+mode: standalone
+persistence:
+  size: 10Gi
+buckets:
+  - name: demo
+    policy: public
+resources:
+  requests:
+    cpu: 1
+    memory: 2Gi
+service:
+  type: NodePort
+  nodePort: null
+consoleService:
+  type: NodePort
+  nodePort: null

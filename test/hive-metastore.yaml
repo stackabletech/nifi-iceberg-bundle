@@ -1,0 +1,30 @@
+---
+apiVersion: hive.stackable.tech/v1alpha1
+kind: HiveCluster
+metadata:
+  name: hive-iceberg
+  namespace: nifi
+spec:
+  image:
+    productVersion: 4.0.0
+  clusterConfig:
+    database:
+      connString: jdbc:postgresql://postgresql-hive-iceberg:5432/hive
+      dbType: postgres
+      credentialsSecret: postgres-credentials
+    s3:
+      reference: minio
+  metastore:
+    roleGroups:
+      default:
+        replicas: 1
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-credentials
+  namespace: nifi
+type: Opaque
+stringData:
+  username: hive
+  password: hivehive

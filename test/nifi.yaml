@@ -1,0 +1,97 @@
+apiVersion: zookeeper.stackable.tech/v1alpha1
+kind: ZookeeperCluster
+metadata:
+  name: zookeeper
+  namespace: nifi
+spec:
+  image:
+    productVersion: 3.9.2
+  servers:
+    roleGroups:
+      default:
+        replicas: 1
+---
+apiVersion: zookeeper.stackable.tech/v1alpha1
+kind: ZookeeperZnode
+metadata:
+  name: nifi-znode
+  namespace: nifi
+spec:
+  clusterRef:
+    name: zookeeper
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: nifi-admin-credentials
+  namespace: nifi
+stringData:
+  admin: adminadmin
+---
+apiVersion: authentication.stackable.tech/v1alpha1
+kind: AuthenticationClass
+metadata:
+  name: nifi-users
+  namespace: nifi
+spec:
+  provider:
+    static:
+      userCredentialsSecret:
+        name: nifi-admin-credentials
+---
+apiVersion: nifi.stackable.tech/v1alpha1
+kind: NifiCluster
+metadata:
+  name: nifi
+  namespace: nifi
+spec:
+  image:
+    productVersion: 2.2.0
+  clusterConfig:
+    authentication:
+      - authenticationClass: nifi-users
+    listenerClass: external-unstable
+    sensitiveProperties:
+      keySecret: nifi-sensitive-property-key
+      autoGenerate: true
+    zookeeperConfigMapName: nifi-znode
+    extraVolumes:
+      - name: nifi-processors
+        persistentVolumeClaim:
+          claimName: nifi-processors
+  nodes:
+    configOverrides:
+      nifi.properties:
+        nifi.nar.library.directory.myCustomLibs: "/stackable/userdata/nifi-processors/"
+        # Quicker startup
+        nifi.cluster.flow.election.max.wait.time: 3 secs
+    podOverrides:
+      spec:
+        containers:
+          - name: nifi
+            env:
+              - name: AWS_ACCESS_KEY_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: minio-s3-credentials
+                    key: accessKey
+              - name: AWS_SECRET_ACCESS_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: minio-s3-credentials
+                    key: secretKey
+    roleGroups:
+      default:
+        replicas: 1
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nifi-processors
+  namespace: nifi
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
