@@ -33,6 +33,8 @@
         <!-- https://github.com/apache/iceberg/issues/10429 -->
         <hive.version>3.1.3</hive.version>
         <hadoop.version>3.4.1</hadoop.version>
+        <!-- This needs to match https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-aws/3.4.1 -->
+        <awssdk-bundle.version>2.24.6</awssdk-bundle.version>
     </properties>
 
     <modules>

@@ -50,6 +50,38 @@
                     <groupId>org.apache.hadoop</groupId>
                     <artifactId>hadoop-aws</artifactId>
                     <version>${hadoop.version}</version>
+                    <!--
+                    https://mvnrepository.com/artifact/software.amazon.awssdk/bundle/2.31.4 has 616.9MB.
+                    We don't want to include all of that, but only add the needed S3 stuff below.
+                    -->
+                    <exclusions>
+                        <exclusion>
+                            <groupId>software.amazon.awssdk</groupId>
+                            <artifactId>bundle</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+
+                <!-- Include only necessary AWS SDK dependencies -->
+                <dependency>
+                    <groupId>software.amazon.awssdk</groupId>
+                    <artifactId>s3</artifactId>
+                    <version>${awssdk-bundle.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>software.amazon.awssdk</groupId>
+                    <artifactId>s3-transfer-manager</artifactId>
+                    <version>${awssdk-bundle.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>software.amazon.awssdk</groupId>
+                    <artifactId>auth</artifactId>
+                    <version>${awssdk-bundle.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>software.amazon.awssdk</groupId>
+                    <artifactId>sts</artifactId>  <!-- If using IAM role-based auth -->
+                    <version>${awssdk-bundle.version}</version>
                 </dependency>
             </dependencies>
         </profile>

@@ -3,7 +3,7 @@ set -e
 
 # Run from repo root directory!
 
-# mvn package
+mvn clean package
 
 kubectl -n nifi wait --for=condition=Ready pod/nifi-node-default-0
 

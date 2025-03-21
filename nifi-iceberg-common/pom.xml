@@ -92,7 +92,7 @@
             <version>10.0.1</version>
         </dependency>
         <!--
-        We only need hadopp-common, so that we have access to org.apache.hadoop.conf.Configurable and can call
+        We only need hadoop-common, so that we have access to org.apache.hadoop.conf.Configurable and can call
         org.apache.iceberg.hive.HiveCatalog.initialize()
         -->
         <dependency>

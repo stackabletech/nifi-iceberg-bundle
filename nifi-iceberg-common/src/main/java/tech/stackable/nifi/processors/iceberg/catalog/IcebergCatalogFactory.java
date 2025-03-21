@@ -68,10 +68,10 @@ public class IcebergCatalogFactory {
         }
         catalog.setConf(hadoopConf);
 
-        LOGGER.info("Create Iceberg Hive catalog using the properties: {} and the following Hadoop properties:", properties);
-        for (Map.Entry<String, String> entry : hadoopConf) {
-            LOGGER.info("Key: {}, Value: {}", entry.getKey(), entry.getValue());
-        }
+//        LOGGER.info("Create Iceberg Hive catalog using the properties: {} and the following Hadoop properties:", properties);
+//        for (Map.Entry<String, String> entry : hadoopConf) {
+//            LOGGER.info("Key: {}, Value: {}", entry.getKey(), entry.getValue());
+//        }
 
         catalog.initialize("hive-catalog", properties);
         return catalog;
