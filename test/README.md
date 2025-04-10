@@ -1,6 +1,6 @@
 Hive metastore URI: `thrift://hive-iceberg.nifi.svc.cluster.local:9083`
 Default Warehouse Location: `s3a://demo/lakehouse`
-S3 endpoint `http://minio:9000`
+S3 endpoint `http://minio:9000`, access key `admin`, secret key `adminadmin`
 
 ```sql
 CREATE SCHEMA iceberg.test WITH (location = 's3a://demo/lakehouse/test');

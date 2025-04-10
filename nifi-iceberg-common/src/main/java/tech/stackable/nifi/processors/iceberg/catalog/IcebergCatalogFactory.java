@@ -32,7 +32,7 @@ import java.util.Map;
 import static tech.stackable.nifi.services.iceberg.IcebergCatalogProperty.*;
 
 public class IcebergCatalogFactory {
-    private static final Logger LOGGER = LoggerFactory.getLogger(IcebergCatalogFactory.class);
+//    private static final Logger LOGGER = LoggerFactory.getLogger(IcebergCatalogFactory.class);
     private final IcebergCatalogService catalogService;
 
     public IcebergCatalogFactory(IcebergCatalogService catalogService) {
@@ -65,6 +65,12 @@ public class IcebergCatalogFactory {
         }
         if (catalogProperties.containsKey(S3_PATH_STYLE_ACCESS)) {
             hadoopConf.set("fs.s3a.path.style.access", (String) catalogProperties.get(S3_PATH_STYLE_ACCESS));
+        }
+        if (catalogProperties.containsKey(S3_AWS_ACCESS_KEY_ID)) {
+            hadoopConf.set("fs.s3a.access.key", (String) catalogProperties.get(S3_AWS_ACCESS_KEY_ID));
+        }
+        if (catalogProperties.containsKey(S3_AWS_SECRET_ACCESS_KEY)) {
+            hadoopConf.set("fs.s3a.secret.key", (String) catalogProperties.get(S3_AWS_SECRET_ACCESS_KEY));
         }
         catalog.setConf(hadoopConf);
 

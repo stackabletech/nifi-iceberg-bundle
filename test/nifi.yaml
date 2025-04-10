@@ -65,21 +65,21 @@ spec:
         nifi.nar.library.directory.myCustomLibs: "/stackable/userdata/nifi-processors/"
         # Quicker startup
         nifi.cluster.flow.election.max.wait.time: 3 secs
-    podOverrides:
-      spec:
-        containers:
-          - name: nifi
-            env:
-              - name: AWS_ACCESS_KEY_ID
-                valueFrom:
-                  secretKeyRef:
-                    name: minio-s3-credentials
-                    key: accessKey
-              - name: AWS_SECRET_ACCESS_KEY
-                valueFrom:
-                  secretKeyRef:
-                    name: minio-s3-credentials
-                    key: secretKey
+#    podOverrides:
+#      spec:
+#        containers:
+#          - name: nifi
+#            env:
+#              - name: AWS_ACCESS_KEY_ID
+#                valueFrom:
+#                  secretKeyRef:
+#                    name: minio-s3-credentials
+#                    key: accessKey
+#              - name: AWS_SECRET_ACCESS_KEY
+#                valueFrom:
+#                  secretKeyRef:
+#                    name: minio-s3-credentials
+#                    key: secretKey
     roleGroups:
       default:
         replicas: 1

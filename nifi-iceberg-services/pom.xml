@@ -33,20 +33,9 @@
         </dependency>
         <dependency>
             <groupId>org.apache.nifi</groupId>
-            <artifactId>nifi-dbcp-service-api</artifactId>
+            <artifactId>nifi-aws-service-api</artifactId>
             <version>${nifi.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.nifi</groupId>
-            <artifactId>nifi-utils</artifactId>
-            <version>${nifi.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.nifi</groupId>
-            <artifactId>nifi-xml-processing</artifactId>
-            <version>${nifi.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
-
 </project>

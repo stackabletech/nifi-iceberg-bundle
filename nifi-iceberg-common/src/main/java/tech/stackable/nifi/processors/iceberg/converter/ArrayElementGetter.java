@@ -26,7 +26,7 @@ import org.apache.nifi.serialization.record.type.EnumDataType;
 import org.apache.nifi.serialization.record.util.DataTypeUtils;
 import org.apache.nifi.serialization.record.util.IllegalTypeConversionException;
 
-//import javax.annotation.Nullable;
+import javax.annotation.Nullable;
 import java.io.Serializable;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -142,7 +142,7 @@ public class ArrayElementGetter {
      * Accessor for getting the elements of an array during runtime.
      */
     public interface ElementGetter extends Serializable {
-//        @Nullable
+        @Nullable
         Object getElementOrNull(Object element);
     }
 }

@@ -113,14 +113,6 @@ public class PutIceberg extends AbstractIcebergProcessor {
             .addValidator(StandardValidators.NON_BLANK_VALIDATOR)
             .build();
 
-//    static final PropertyDescriptor AWS_CREDENTIALS_PROVIDER_SERVICE = new PropertyDescriptor.Builder()
-//            .name("AWS Credentials Provider service")
-//            .displayName("AWS Credentials Provider Service")
-//            .description("The Controller Service that is used to obtain AWS credentials provider")
-//            .required(true)
-//            .identifiesControllerService(AWSCredentialsProviderService.class)
-//            .build();
-
     static final PropertyDescriptor ENDPOINT_OVERRIDE = new PropertyDescriptor.Builder()
             .name("Endpoint Override URL")
             .description("Endpoint URL to use instead of the AWS default including scheme, host, port, and path. " +
@@ -214,7 +206,6 @@ public class PutIceberg extends AbstractIcebergProcessor {
             MINIMUM_COMMIT_WAIT_TIME,
             MAXIMUM_COMMIT_WAIT_TIME,
             MAXIMUM_COMMIT_DURATION
-//            AWS_CREDENTIALS_PROVIDER_SERVICE
     );
 
     public static final Set<Relationship> RELATIONSHIPS = Set.of(REL_SUCCESS, REL_FAILURE);
@@ -254,9 +245,6 @@ public class PutIceberg extends AbstractIcebergProcessor {
         final RecordReaderFactory readerFactory = context.getProperty(RECORD_READER).asControllerService(RecordReaderFactory.class);
         final String fileFormat = context.getProperty(FILE_FORMAT).getValue();
         final String maximumFileSize = context.getProperty(MAXIMUM_FILE_SIZE).evaluateAttributeExpressions(flowFile).getValue();
-//        final AWSCredentialsProviderService awsCredentialsProviderService = context.getProperty(AWS_CREDENTIALS_PROVIDER_SERVICE).asControllerService(AWSCredentialsProviderService.class);
-//        final AWSCredentialsProvider credentialsProvider = awsCredentialsProviderService.getCredentialsProvider();
-//        final AWSCredentials credentials = credentialsProvider.getCredentials();
 
         Catalog catalog = null;
         Table table = null;

@@ -22,4 +22,6 @@ public enum IcebergCatalogProperty {
     WAREHOUSE_LOCATION,
     S3_ENDPOINT_OVERRIDE,
     S3_PATH_STYLE_ACCESS,
+    S3_AWS_ACCESS_KEY_ID,
+    S3_AWS_SECRET_ACCESS_KEY,
 }

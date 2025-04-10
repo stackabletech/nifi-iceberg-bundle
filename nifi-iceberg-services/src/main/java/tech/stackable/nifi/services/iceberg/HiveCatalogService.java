@@ -30,7 +30,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Tags({"iceberg", "catalog", "service", "metastore", "hive"})
@@ -46,7 +46,12 @@ public class HiveCatalogService extends AbstractCatalogService {
             .required(true)
             .build();
 
-    private static final List<PropertyDescriptor> PROPERTIES = List.of(METASTORE_URI, WAREHOUSE_LOCATION, S3_ENDPOINT_OVERRIDE, S3_PATH_STYLE_ACCESS);
+    private static final List<PropertyDescriptor> PROPERTIES;
+    static {
+        List<PropertyDescriptor> properties = new ArrayList<>(COMMON_PROPERTIES);
+        properties.add(METASTORE_URI);
+        PROPERTIES = Collections.unmodifiableList(properties);
+    }
 
     @Override
     protected List<PropertyDescriptor> getSupportedPropertyDescriptors() {
@@ -55,20 +60,10 @@ public class HiveCatalogService extends AbstractCatalogService {
 
     @OnEnabled
     public void onEnabled(final ConfigurationContext context) {
+        handle_common_properties(context);
+
         if (context.getProperty(METASTORE_URI).isSet()) {
             catalogProperties.put(IcebergCatalogProperty.METASTORE_URI, context.getProperty(METASTORE_URI).evaluateAttributeExpressions().getValue());
-        }
-
-        if (context.getProperty(WAREHOUSE_LOCATION).isSet()) {
-            catalogProperties.put(IcebergCatalogProperty.WAREHOUSE_LOCATION, context.getProperty(WAREHOUSE_LOCATION).evaluateAttributeExpressions().getValue());
-        }
-
-        if (context.getProperty(S3_ENDPOINT_OVERRIDE).isSet()) {
-            catalogProperties.put(IcebergCatalogProperty.S3_ENDPOINT_OVERRIDE, context.getProperty(S3_ENDPOINT_OVERRIDE).evaluateAttributeExpressions().getValue());
-        }
-
-        if (context.getProperty(S3_PATH_STYLE_ACCESS).isSet()) {
-            catalogProperties.put(IcebergCatalogProperty.S3_PATH_STYLE_ACCESS, context.getProperty(S3_PATH_STYLE_ACCESS).evaluateAttributeExpressions().getValue());
         }
     }
 
