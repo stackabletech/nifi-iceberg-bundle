@@ -35,32 +35,43 @@ import org.apache.iceberg.util.PropertyUtil;
  */
 public class IcebergTaskWriterFactory {
 
-    private final Schema schema;
-    private final PartitionSpec spec;
-    private final FileIO io;
-    private final long targetFileSize;
-    private final FileFormat fileFormat;
-    private final FileAppenderFactory<Record> appenderFactory;
-    private final OutputFileFactory outputFileFactory;
+  private final Schema schema;
+  private final PartitionSpec spec;
+  private final FileIO io;
+  private final long targetFileSize;
+  private final FileFormat fileFormat;
+  private final FileAppenderFactory<Record> appenderFactory;
+  private final OutputFileFactory outputFileFactory;
 
-    public IcebergTaskWriterFactory(Table table, long taskId, FileFormat fileFormat, String targetFileSize) {
-        this.schema = table.schema();
-        this.spec = table.spec();
-        this.io = table.io();
-        this.fileFormat = fileFormat;
+  public IcebergTaskWriterFactory(
+      Table table, long taskId, FileFormat fileFormat, String targetFileSize) {
+    this.schema = table.schema();
+    this.spec = table.spec();
+    this.io = table.io();
+    this.fileFormat = fileFormat;
 
-        this.targetFileSize = targetFileSize != null ? Long.parseLong(targetFileSize) :
-                PropertyUtil.propertyAsLong(table.properties(), TableProperties.WRITE_TARGET_FILE_SIZE_BYTES, TableProperties.WRITE_TARGET_FILE_SIZE_BYTES_DEFAULT);
+    this.targetFileSize =
+        targetFileSize != null
+            ? Long.parseLong(targetFileSize)
+            : PropertyUtil.propertyAsLong(
+                table.properties(),
+                TableProperties.WRITE_TARGET_FILE_SIZE_BYTES,
+                TableProperties.WRITE_TARGET_FILE_SIZE_BYTES_DEFAULT);
 
-        this.outputFileFactory = OutputFileFactory.builderFor(table, table.spec().specId(), taskId).format(fileFormat).build();
-        this.appenderFactory = new GenericAppenderFactory(schema, spec);
+    this.outputFileFactory =
+        OutputFileFactory.builderFor(table, table.spec().specId(), taskId)
+            .format(fileFormat)
+            .build();
+    this.appenderFactory = new GenericAppenderFactory(schema, spec);
+  }
+
+  public TaskWriter<Record> create() {
+    if (spec.isUnpartitioned()) {
+      return new UnpartitionedWriter<>(
+          spec, fileFormat, appenderFactory, outputFileFactory, io, targetFileSize);
+    } else {
+      return new IcebergPartitionedWriter(
+          spec, fileFormat, appenderFactory, outputFileFactory, io, targetFileSize, schema);
     }
-
-    public TaskWriter<Record> create() {
-        if (spec.isUnpartitioned()) {
-            return new UnpartitionedWriter<>(spec, fileFormat, appenderFactory, outputFileFactory, io, targetFileSize);
-        } else {
-            return new IcebergPartitionedWriter(spec, fileFormat, appenderFactory, outputFileFactory, io, targetFileSize, schema);
-        }
-    }
+  }
 }

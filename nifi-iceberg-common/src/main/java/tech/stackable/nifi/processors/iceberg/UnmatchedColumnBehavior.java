@@ -21,36 +21,38 @@ package tech.stackable.nifi.processors.iceberg;
 import org.apache.nifi.components.DescribedValue;
 
 public enum UnmatchedColumnBehavior implements DescribedValue {
-    IGNORE_UNMATCHED_COLUMN("Ignore Unmatched Columns",
-            "Any column in the database that does not have a field in the document will be assumed to not be required.  No notification will be logged"),
+  IGNORE_UNMATCHED_COLUMN(
+      "Ignore Unmatched Columns",
+      "Any column in the database that does not have a field in the document will be assumed to not be required.  No notification will be logged"),
 
-    WARNING_UNMATCHED_COLUMN("Warn on Unmatched Columns",
-            "Any column in the database that does not have a field in the document will be assumed to not be required.  A warning will be logged"),
+  WARNING_UNMATCHED_COLUMN(
+      "Warn on Unmatched Columns",
+      "Any column in the database that does not have a field in the document will be assumed to not be required.  A warning will be logged"),
 
-    FAIL_UNMATCHED_COLUMN("Fail on Unmatched Columns",
-            "A flow will fail if any column in the database that does not have a field in the document.  An error will be logged");
+  FAIL_UNMATCHED_COLUMN(
+      "Fail on Unmatched Columns",
+      "A flow will fail if any column in the database that does not have a field in the document.  An error will be logged");
 
+  private final String displayName;
+  private final String description;
 
-    private final String displayName;
-    private final String description;
+  UnmatchedColumnBehavior(final String displayName, final String description) {
+    this.displayName = displayName;
+    this.description = description;
+  }
 
-    UnmatchedColumnBehavior(final String displayName, final String description) {
-        this.displayName = displayName;
-        this.description = description;
-    }
+  @Override
+  public String getValue() {
+    return name();
+  }
 
-    @Override
-    public String getValue() {
-        return name();
-    }
+  @Override
+  public String getDisplayName() {
+    return displayName;
+  }
 
-    @Override
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    @Override
-    public String getDescription() {
-        return description;
-    }
+  @Override
+  public String getDescription() {
+    return description;
+  }
 }

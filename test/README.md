@@ -11,3 +11,4 @@ select * from iceberg.test.test;
 select * from iceberg.test."test$manifests";
 select * from iceberg.test."test$files";
 ```
+

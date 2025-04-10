@@ -16,29 +16,27 @@
  */
 package tech.stackable.nifi.processors.iceberg.converter;
 
-/**
- * Interface for data conversion between NiFi Record and Iceberg Record.
- */
+/** Interface for data conversion between NiFi Record and Iceberg Record. */
 public abstract class DataConverter<S, T> {
 
-    private String sourceFieldName;
-    private String targetFieldName;
+  private String sourceFieldName;
+  private String targetFieldName;
 
-    public String getSourceFieldName() {
-        return sourceFieldName;
-    }
+  public String getSourceFieldName() {
+    return sourceFieldName;
+  }
 
-    public String getTargetFieldName() {
-        return targetFieldName;
-    }
+  public String getTargetFieldName() {
+    return targetFieldName;
+  }
 
-    public void setSourceFieldName(String sourceFieldName) {
-        this.sourceFieldName = sourceFieldName;
-    }
+  public void setSourceFieldName(String sourceFieldName) {
+    this.sourceFieldName = sourceFieldName;
+  }
 
-    public void setTargetFieldName(String targetFieldName) {
-        this.targetFieldName = targetFieldName;
-    }
+  public void setTargetFieldName(String targetFieldName) {
+    this.targetFieldName = targetFieldName;
+  }
 
-    abstract T convert(S data);
+  abstract T convert(S data);
 }

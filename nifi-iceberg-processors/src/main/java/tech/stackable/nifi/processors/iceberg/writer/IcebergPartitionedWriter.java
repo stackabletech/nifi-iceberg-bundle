@@ -27,24 +27,28 @@ import org.apache.iceberg.io.FileIO;
 import org.apache.iceberg.io.OutputFileFactory;
 import org.apache.iceberg.io.PartitionedFanoutWriter;
 
-/**
- * This class adapts {@link Record} for partitioned writing.
- */
+/** This class adapts {@link Record} for partitioned writing. */
 public class IcebergPartitionedWriter extends PartitionedFanoutWriter<Record> {
 
-    private final PartitionKey partitionKey;
-    private final InternalRecordWrapper wrapper;
+  private final PartitionKey partitionKey;
+  private final InternalRecordWrapper wrapper;
 
-    public IcebergPartitionedWriter(PartitionSpec spec, FileFormat format, FileAppenderFactory<Record> appenderFactory, OutputFileFactory fileFactory,
-                             FileIO io, long targetFileSize, Schema schema) {
-        super(spec, format, appenderFactory, fileFactory, io, targetFileSize);
-        this.partitionKey = new PartitionKey(spec, schema);
-        this.wrapper = new InternalRecordWrapper(schema.asStruct());
-    }
+  public IcebergPartitionedWriter(
+      PartitionSpec spec,
+      FileFormat format,
+      FileAppenderFactory<Record> appenderFactory,
+      OutputFileFactory fileFactory,
+      FileIO io,
+      long targetFileSize,
+      Schema schema) {
+    super(spec, format, appenderFactory, fileFactory, io, targetFileSize);
+    this.partitionKey = new PartitionKey(spec, schema);
+    this.wrapper = new InternalRecordWrapper(schema.asStruct());
+  }
 
-    @Override
-    protected PartitionKey partition(Record record) {
-        partitionKey.partition(wrapper.wrap(record));
-        return partitionKey;
-    }
+  @Override
+  protected PartitionKey partition(Record record) {
+    partitionKey.partition(wrapper.wrap(record));
+    return partitionKey;
+  }
 }
