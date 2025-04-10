@@ -383,6 +383,6 @@ public class PutIceberg extends AbstractIcebergProcessor {
     void abort(DataFile[] dataFiles, Table table) {
         Tasks.foreach(dataFiles)
                 .retry(3)
-                .run(file -> table.io().deleteFile(file.path().toString()));
+                .run(file -> table.io().deleteFile(file.location().toString()));
     }
 }

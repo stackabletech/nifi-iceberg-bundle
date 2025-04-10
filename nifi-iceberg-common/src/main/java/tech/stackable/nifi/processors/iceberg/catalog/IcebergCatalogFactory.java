@@ -21,8 +21,6 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.iceberg.CatalogProperties;
 import org.apache.iceberg.catalog.Catalog;
 import org.apache.iceberg.hive.HiveCatalog;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import tech.stackable.nifi.services.iceberg.IcebergCatalogProperty;
 import tech.stackable.nifi.services.iceberg.IcebergCatalogService;
 
@@ -32,7 +30,6 @@ import java.util.Map;
 import static tech.stackable.nifi.services.iceberg.IcebergCatalogProperty.*;
 
 public class IcebergCatalogFactory {
-//    private static final Logger LOGGER = LoggerFactory.getLogger(IcebergCatalogFactory.class);
     private final IcebergCatalogService catalogService;
 
     public IcebergCatalogFactory(IcebergCatalogService catalogService) {
@@ -73,11 +70,6 @@ public class IcebergCatalogFactory {
             hadoopConf.set("fs.s3a.secret.key", (String) catalogProperties.get(S3_AWS_SECRET_ACCESS_KEY));
         }
         catalog.setConf(hadoopConf);
-
-//        LOGGER.info("Create Iceberg Hive catalog using the properties: {} and the following Hadoop properties:", properties);
-//        for (Map.Entry<String, String> entry : hadoopConf) {
-//            LOGGER.info("Key: {}, Value: {}", entry.getKey(), entry.getValue());
-//        }
 
         catalog.initialize("hive-catalog", properties);
         return catalog;

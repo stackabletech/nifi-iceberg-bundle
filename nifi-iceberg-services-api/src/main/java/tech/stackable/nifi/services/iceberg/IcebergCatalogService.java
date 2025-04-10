@@ -19,7 +19,6 @@ package tech.stackable.nifi.services.iceberg;
 
 import org.apache.nifi.controller.ControllerService;
 
-import java.util.List;
 import java.util.Map;
 
 /**
