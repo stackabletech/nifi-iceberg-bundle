@@ -35,6 +35,13 @@
         <hadoop.version>3.4.1</hadoop.version>
         <!-- This needs to match https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-aws/3.4.1 -->
         <awssdk-bundle.version>2.24.6</awssdk-bundle.version>
+
+        <spotbugs-maven-plugin.version>4.8.6.6</spotbugs-maven-plugin.version>
+        <spotbugs.version>4.9.0</spotbugs.version>
+        <spotless-maven-plugin.version>2.44.2</spotless-maven-plugin.version>
+        <cleanthat.version>2.17</cleanthat.version>
+        <error-prone.version>2.27.1</error-prone.version>
+        <google-java-format.version>1.19.2</google-java-format.version>
     </properties>
 
     <modules>
@@ -47,4 +54,76 @@
         <module>nifi-iceberg-common</module>
         <!-- <module>nifi-iceberg-test-utils</module> -->
     </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>${spotless-maven-plugin.version}</version>
+                <configuration>
+                    <java>
+                        <cleanthat>
+                            <version>${cleanthat.version}</version>
+                        </cleanthat>
+                        <removeUnusedImports />
+                        <formatAnnotations />
+                        <googleJavaFormat>
+                            <version>${google-java-format.version}</version>
+                        </googleJavaFormat>
+                    </java>
+                    <markdown>
+                        <includes>
+                            <include>**/*.md</include>
+                        </includes>
+                        <flexmark />
+                    </markdown>
+                    <json>
+                        <includes>
+                            <include>src/**/*.json</include>
+                        </includes>
+                        <jackson />
+                    </json>
+                    <!--
+                     POM rewriting conflicts with the maven-release-plugin.
+                     The release plugin rewrites the POM file in a way that is incompatible with spotless, and they change
+                     the contents back and forth to match their respective styles. -->
+                    <!--pom>
+                      <sortPom>
+                        <expandEmptyElements>false</expandEmptyElements>
+                      </sortPom>
+                    </pom-->
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>apply</goal>
+                        </goals>
+                        <phase>validate</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>${spotbugs-maven-plugin.version}</version>
+                <configuration>
+                    <plugins>
+                        <plugin>
+                            <groupId>com.h3xstream.findsecbugs</groupId>
+                            <artifactId>findsecbugs-plugin</artifactId>
+                            <version>${findsecbugs-plugin.version}</version>
+                        </plugin>
+                    </plugins>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs</artifactId>
+                        <version>${spotbugs.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
 </project>

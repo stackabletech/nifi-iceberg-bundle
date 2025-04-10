@@ -8,3 +8,4 @@ TODOs
   * Especially `nifi-iceberg-processors/src/main/resources/docs/tech.stackable.nifi.processors.iceberg.PutIceberg/additionalDetails.md`
 * Clean git history
 * Add branch protection :(
+
