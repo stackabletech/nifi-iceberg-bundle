@@ -31,7 +31,7 @@ import org.apache.nifi.processor.util.StandardValidators;
 @Tags({"iceberg", "catalog", "service", "metastore", "hive"})
 @CapabilityDescription(
     "Catalog service that connects to a Hive metastore to keep track of Iceberg tables.")
-public class HiveCatalogService extends AbstractCatalogService {
+public class IcebergHiveCatalogService extends AbstractCatalogService {
 
   public static final PropertyDescriptor METASTORE_URI =
       new PropertyDescriptor.Builder()
