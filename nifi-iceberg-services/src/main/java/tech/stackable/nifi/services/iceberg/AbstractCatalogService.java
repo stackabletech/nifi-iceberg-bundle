@@ -36,17 +36,18 @@ public abstract class AbstractCatalogService extends AbstractControllerService
       new PropertyDescriptor.Builder()
           .name("warehouse-location")
           .displayName("Default Warehouse Location")
-          .description("Location of default database for the warehouse.")
+          .description(
+              "Location of default database for the warehouse, e.g. \"s3a://mybucket/lakehouse\".")
           .expressionLanguageSupported(ExpressionLanguageScope.ENVIRONMENT)
           .addValidator(StandardValidators.NON_BLANK_VALIDATOR)
           .required(true)
           .build();
 
-  private static final PropertyDescriptor S3_ENDPOINT_OVERRIDE =
+  private static final PropertyDescriptor S3_ENDPOINT =
       new PropertyDescriptor.Builder()
-          .name("s3-endpoint-override")
-          .displayName("S3 endpoint override")
-          .description("Custom S3 endpoint in the format of an URL")
+          .name("s3-endpoint")
+          .displayName("S3 endpoint")
+          .description("Custom S3 endpoint in the format of an URL, e.g. \"http://minio:9000\".")
           .expressionLanguageSupported(ExpressionLanguageScope.ENVIRONMENT)
           .addValidator(StandardValidators.URL_VALIDATOR)
           .required(false)
@@ -57,7 +58,7 @@ public abstract class AbstractCatalogService extends AbstractControllerService
           .name("s3-path-style-access")
           .displayName("S3 path style access")
           .description(
-              "Enable S3 path style access by disabling the default virtual hosting behaviour")
+              "Enable S3 path style access by disabling the default virtual hosting behavior")
           .allowableValues("false", "true")
           .required(false)
           .build();
@@ -74,7 +75,7 @@ public abstract class AbstractCatalogService extends AbstractControllerService
   protected static final List<PropertyDescriptor> COMMON_PROPERTIES =
       List.of(
           WAREHOUSE_LOCATION,
-          S3_ENDPOINT_OVERRIDE,
+          S3_ENDPOINT,
           S3_PATH_STYLE_ACCESS,
           S3_AWS_CREDENTIALS_PROVIDER_SERVICE);
 
@@ -87,10 +88,10 @@ public abstract class AbstractCatalogService extends AbstractControllerService
           context.getProperty(WAREHOUSE_LOCATION).evaluateAttributeExpressions().getValue());
     }
 
-    if (context.getProperty(S3_ENDPOINT_OVERRIDE).isSet()) {
+    if (context.getProperty(S3_ENDPOINT).isSet()) {
       catalogProperties.put(
-          IcebergCatalogProperty.S3_ENDPOINT_OVERRIDE,
-          context.getProperty(S3_ENDPOINT_OVERRIDE).evaluateAttributeExpressions().getValue());
+          IcebergCatalogProperty.S3_ENDPOINT,
+          context.getProperty(S3_ENDPOINT).evaluateAttributeExpressions().getValue());
     }
 
     if (context.getProperty(S3_PATH_STYLE_ACCESS).isSet()) {

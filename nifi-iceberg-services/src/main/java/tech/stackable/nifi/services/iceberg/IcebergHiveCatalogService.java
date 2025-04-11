@@ -30,7 +30,7 @@ import org.apache.nifi.processor.util.StandardValidators;
 
 @Tags({"iceberg", "catalog", "service", "metastore", "hive"})
 @CapabilityDescription(
-    "Catalog service that connects to a Hive metastore to keep track of Iceberg tables.")
+    "Iceberg catalog service that connects to a Hive metastore to keep track of Iceberg tables.")
 public class IcebergHiveCatalogService extends AbstractCatalogService {
 
   public static final PropertyDescriptor METASTORE_URI =
@@ -38,7 +38,7 @@ public class IcebergHiveCatalogService extends AbstractCatalogService {
           .name("hive-metastore-uri")
           .displayName("Hive Metastore URI")
           .description(
-              "The URI location(s) for the Hive metastore; note that this is not the location of the Hive Server.")
+              "The URI location(s) for the Hive metastore; note that this is not the location of the Hive Server, e.g. \"thrift://hive-iceberg.default.svc.cluster.local:9083\".")
           .expressionLanguageSupported(ExpressionLanguageScope.ENVIRONMENT)
           .addValidator(StandardValidators.URI_LIST_VALIDATOR)
           .required(true)

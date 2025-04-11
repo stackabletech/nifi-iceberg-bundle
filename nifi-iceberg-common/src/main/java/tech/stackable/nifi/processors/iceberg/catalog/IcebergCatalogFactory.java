@@ -58,8 +58,8 @@ public class IcebergCatalogFactory {
     }
 
     final Configuration hadoopConf = new Configuration();
-    if (catalogProperties.containsKey(S3_ENDPOINT_OVERRIDE)) {
-      hadoopConf.set("fs.s3a.endpoint", (String) catalogProperties.get(S3_ENDPOINT_OVERRIDE));
+    if (catalogProperties.containsKey(S3_ENDPOINT)) {
+      hadoopConf.set("fs.s3a.endpoint", (String) catalogProperties.get(S3_ENDPOINT));
     }
     if (catalogProperties.containsKey(S3_PATH_STYLE_ACCESS)) {
       hadoopConf.set(

@@ -20,7 +20,7 @@ package tech.stackable.nifi.services.iceberg;
 public enum IcebergCatalogProperty {
   METASTORE_URI,
   WAREHOUSE_LOCATION,
-  S3_ENDPOINT_OVERRIDE,
+  S3_ENDPOINT,
   S3_PATH_STYLE_ACCESS,
   S3_AWS_ACCESS_KEY_ID,
   S3_AWS_SECRET_ACCESS_KEY,

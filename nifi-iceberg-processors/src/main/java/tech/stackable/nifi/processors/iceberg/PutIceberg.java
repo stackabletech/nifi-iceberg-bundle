@@ -104,7 +104,7 @@ public class PutIceberg extends AbstractIcebergProcessor {
       new PropertyDescriptor.Builder()
           .name("catalog-namespace")
           .displayName("Catalog Namespace")
-          .description("The namespace of the catalog.")
+          .description("The namespace of the catalog (sometimes also referred to as schema)")
           .expressionLanguageSupported(ExpressionLanguageScope.FLOWFILE_ATTRIBUTES)
           .required(true)
           .addValidator(StandardValidators.NON_BLANK_VALIDATOR)
@@ -118,18 +118,6 @@ public class PutIceberg extends AbstractIcebergProcessor {
           .expressionLanguageSupported(ExpressionLanguageScope.FLOWFILE_ATTRIBUTES)
           .required(true)
           .addValidator(StandardValidators.NON_BLANK_VALIDATOR)
-          .build();
-
-  static final PropertyDescriptor ENDPOINT_OVERRIDE =
-      new PropertyDescriptor.Builder()
-          .name("Endpoint Override URL")
-          .description(
-              "Endpoint URL to use instead of the AWS default including scheme, host, port, and path. "
-                  + "The AWS libraries select an endpoint URL based on the AWS region, but this property overrides "
-                  + "the selected endpoint URL, allowing use with other S3-compatible endpoints.")
-          .expressionLanguageSupported(ExpressionLanguageScope.ENVIRONMENT)
-          .required(false)
-          .addValidator(StandardValidators.URL_VALIDATOR)
           .build();
 
   static final PropertyDescriptor UNMATCHED_COLUMN_BEHAVIOR =
