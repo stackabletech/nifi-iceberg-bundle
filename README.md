@@ -6,7 +6,7 @@ This repos is based on the [removal PR](https://github.com/apache/nifi/pull/9460
 
 > [!WARNING]
 > Although we took some steps of updating dependencies and removing dependencies alongside with functionality, the situation is still relevant.
-You need to decide if the added functionality is worth the added CVEs.
+> You need to decide if the added functionality is worth the added CVEs.
 
 ## Functionality
 
@@ -39,3 +39,4 @@ The following features were not carried over from the original implementation, w
 - [ ] Re-add tests
 - [ ] Clean git history
 - [ ] Add branch protection :(
+

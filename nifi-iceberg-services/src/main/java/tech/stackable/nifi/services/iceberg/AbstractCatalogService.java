@@ -32,7 +32,7 @@ import org.apache.nifi.processors.aws.credentials.provider.service.AWSCredential
 /** Abstract class holding common properties and methods for Catalog Service implementations. */
 public abstract class AbstractCatalogService extends AbstractControllerService
     implements IcebergCatalogService {
-  private static final PropertyDescriptor WAREHOUSE_LOCATION =
+  public static final PropertyDescriptor WAREHOUSE_LOCATION =
       new PropertyDescriptor.Builder()
           .name("warehouse-location")
           .displayName("Default Warehouse Location")
@@ -63,7 +63,7 @@ public abstract class AbstractCatalogService extends AbstractControllerService
           .required(false)
           .build();
 
-  private static final PropertyDescriptor S3_AWS_CREDENTIALS_PROVIDER_SERVICE =
+  public static final PropertyDescriptor S3_AWS_CREDENTIALS_PROVIDER_SERVICE =
       new PropertyDescriptor.Builder()
           .name("AWS Credentials Provider service")
           .displayName("AWS Credentials Provider Service")
