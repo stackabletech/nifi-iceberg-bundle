@@ -662,16 +662,9 @@ public class TestIcebergRecordConverter {
         offsetDateTime.withOffsetSameInstant(ZoneOffset.UTC),
         resultRecord.get(12, OffsetDateTime.class));
     assertEquals(LOCAL_DATE_TIME, resultRecord.get(13, LocalDateTime.class));
+    assertEquals(UUID.fromString("0000-00-00-00-000000"), resultRecord.get(14, UUID.class));
     assertEquals(Integer.valueOf(10), resultRecord.get(15, Integer.class));
     assertEquals("blue", resultRecord.get(16, String.class));
-
-    if (format.equals(PARQUET)) {
-      assertArrayEquals(
-          new byte[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-          resultRecord.get(14, byte[].class));
-    } else {
-      assertEquals(UUID.fromString("0000-00-00-00-000000"), resultRecord.get(14, UUID.class));
-    }
   }
 
   @DisabledOnOs(WINDOWS)
@@ -718,19 +711,8 @@ public class TestIcebergRecordConverter {
         offsetDateTime.withOffsetSameInstant(ZoneOffset.UTC),
         resultRecord.get(12, OffsetDateTime.class));
     assertEquals(LOCAL_DATE_TIME, resultRecord.get(13, LocalDateTime.class));
+    assertEquals(UUID.fromString("0000-00-00-00-000000"), resultRecord.get(14, UUID.class));
     assertEquals(Integer.valueOf(10), resultRecord.get(15, Integer.class));
-
-    if (format.equals(FileFormat.PARQUET)) {
-      // Parquet uses a conversion to the byte values of numeric characters such as "0" -> byte
-      // value 0
-      UUID uuid = UUID.fromString("0000-00-00-00-000000");
-      ByteBuffer byteBuffer = ByteBuffer.wrap(new byte[16]);
-      byteBuffer.putLong(uuid.getMostSignificantBits());
-      byteBuffer.putLong(uuid.getLeastSignificantBits());
-      assertArrayEquals(byteBuffer.array(), resultRecord.get(14, byte[].class));
-    } else {
-      assertEquals(UUID.fromString("0000-00-00-00-000000"), resultRecord.get(14, UUID.class));
-    }
 
     // Test null values
     for (String fieldName : record.getRawFieldNames()) {
@@ -824,19 +806,8 @@ public class TestIcebergRecordConverter {
         offsetDateTime.withOffsetSameInstant(ZoneOffset.UTC),
         resultRecord.get(12, OffsetDateTime.class));
     assertEquals(LOCAL_DATE_TIME, resultRecord.get(13, LocalDateTime.class));
+    assertEquals(UUID.fromString("0000-00-00-00-000000"), resultRecord.get(14, UUID.class));
     assertEquals(Integer.valueOf(10), resultRecord.get(15, Integer.class));
-
-    if (format.equals(FileFormat.PARQUET)) {
-      // Parquet uses a conversion to the byte values of numeric characters such as "0" -> byte
-      // value 0
-      UUID uuid = UUID.fromString("0000-00-00-00-000000");
-      ByteBuffer byteBuffer = ByteBuffer.wrap(new byte[16]);
-      byteBuffer.putLong(uuid.getMostSignificantBits());
-      byteBuffer.putLong(uuid.getLeastSignificantBits());
-      assertArrayEquals(byteBuffer.array(), resultRecord.get(14, byte[].class));
-    } else {
-      assertEquals(UUID.fromString("0000-00-00-00-000000"), resultRecord.get(14, UUID.class));
-    }
   }
 
   @DisabledOnOs(WINDOWS)
@@ -901,11 +872,8 @@ public class TestIcebergRecordConverter {
         offsetDateTime.withOffsetSameInstant(ZoneOffset.UTC),
         resultRecord.get(10, OffsetDateTime.class));
     assertEquals(LOCAL_DATE_TIME, resultRecord.get(11, LocalDateTime.class));
+    assertEquals(UUID.fromString("0000-00-00-00-000000"), resultRecord.get(12, UUID.class));
     assertEquals(Integer.valueOf(10), resultRecord.get(13, Integer.class));
-
-    assertArrayEquals(
-        new byte[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        resultRecord.get(12, byte[].class));
   }
 
   @DisabledOnOs(WINDOWS)

@@ -115,6 +115,7 @@ public class IcebergRecordConverter {
           case DOUBLE:
           case DATE:
           case STRING:
+          case UUID:
             return new GenericDataConverters.PrimitiveTypeConverter(type, dataType);
           case TIME:
             return new GenericDataConverters.TimeConverter(dataType.getFormat());
@@ -124,12 +125,6 @@ public class IcebergRecordConverter {
               return new GenericDataConverters.TimestampWithTimezoneConverter(dataType);
             }
             return new GenericDataConverters.TimestampConverter(dataType);
-          case UUID:
-            final UUIDDataType uuidType = (UUIDDataType) dataType;
-            if (uuidType.getFileFormat() == FileFormat.PARQUET) {
-              return new GenericDataConverters.UUIDtoByteArrayConverter();
-            }
-            return new GenericDataConverters.PrimitiveTypeConverter(type, dataType);
           case FIXED:
             final Types.FixedType fixedType = (Types.FixedType) type;
             return new GenericDataConverters.FixedConverter(fixedType.length());
@@ -277,12 +272,6 @@ public class IcebergRecordConverter {
             ((MapDataType) fieldType).getValueType());
       }
 
-      // If the source field or target field is of type UUID, create a UUIDDataType from it
-      if (fieldType.getFieldType().equals(RecordFieldType.UUID)
-          || schema.findField(fieldId).type().typeId() == Type.TypeID.UUID) {
-        return new UUIDDataType(fieldType, fileFormat);
-      }
-
       return fieldType;
     }
 
@@ -316,24 +305,6 @@ public class IcebergRecordConverter {
             typeWithSchema.getElementSchema(), (RecordDataType) typeWithSchema.getElementType());
       }
       return arrayType.getElementType();
-    }
-  }
-
-  /**
-   * Parquet writer expects the UUID value in different format, so it needs to be converted
-   * differently: <a href="https://github.com/apache/iceberg/issues/1881">#1881</a>
-   */
-  private static class UUIDDataType extends DataType {
-
-    private final FileFormat fileFormat;
-
-    UUIDDataType(DataType dataType, FileFormat fileFormat) {
-      super(dataType.getFieldType(), dataType.getFormat());
-      this.fileFormat = fileFormat;
-    }
-
-    public FileFormat getFileFormat() {
-      return fileFormat;
     }
   }
 
