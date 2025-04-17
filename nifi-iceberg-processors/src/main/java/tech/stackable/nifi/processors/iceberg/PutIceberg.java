@@ -100,26 +100,6 @@ public class PutIceberg extends AbstractIcebergProcessor {
           .required(true)
           .build();
 
-  static final PropertyDescriptor CATALOG_NAMESPACE =
-      new PropertyDescriptor.Builder()
-          .name("catalog-namespace")
-          .displayName("Catalog Namespace")
-          .description("The namespace of the catalog (sometimes also referred to as schema)")
-          .expressionLanguageSupported(ExpressionLanguageScope.FLOWFILE_ATTRIBUTES)
-          .required(true)
-          .addValidator(StandardValidators.NON_BLANK_VALIDATOR)
-          .build();
-
-  static final PropertyDescriptor TABLE_NAME =
-      new PropertyDescriptor.Builder()
-          .name("table-name")
-          .displayName("Table Name")
-          .description("The name of the Iceberg table to write to.")
-          .expressionLanguageSupported(ExpressionLanguageScope.FLOWFILE_ATTRIBUTES)
-          .required(true)
-          .addValidator(StandardValidators.NON_BLANK_VALIDATOR)
-          .build();
-
   static final PropertyDescriptor UNMATCHED_COLUMN_BEHAVIOR =
       new PropertyDescriptor.Builder()
           .name("unmatched-column-behavior")

@@ -19,12 +19,14 @@ package tech.stackable.nifi.processors.iceberg;
 
 import org.apache.nifi.annotation.behavior.RequiresInstanceClassLoading;
 import org.apache.nifi.components.PropertyDescriptor;
+import org.apache.nifi.expression.ExpressionLanguageScope;
 import org.apache.nifi.flowfile.FlowFile;
 import org.apache.nifi.processor.AbstractProcessor;
 import org.apache.nifi.processor.ProcessContext;
 import org.apache.nifi.processor.ProcessSession;
 import org.apache.nifi.processor.Relationship;
 import org.apache.nifi.processor.exception.ProcessException;
+import org.apache.nifi.processor.util.StandardValidators;
 import tech.stackable.nifi.services.iceberg.IcebergCatalogService;
 
 /** Base Iceberg processor class. */
@@ -39,6 +41,26 @@ public abstract class AbstractIcebergProcessor extends AbstractProcessor {
               "Specifies the Controller Service to use for handling references to table’s metadata files.")
           .identifiesControllerService(IcebergCatalogService.class)
           .required(true)
+          .build();
+
+  static final PropertyDescriptor CATALOG_NAMESPACE =
+      new PropertyDescriptor.Builder()
+          .name("catalog-namespace")
+          .displayName("Catalog Namespace")
+          .description("The namespace of the catalog (sometimes also referred to as schema)")
+          .expressionLanguageSupported(ExpressionLanguageScope.FLOWFILE_ATTRIBUTES)
+          .required(true)
+          .addValidator(StandardValidators.NON_BLANK_VALIDATOR)
+          .build();
+
+  static final PropertyDescriptor TABLE_NAME =
+      new PropertyDescriptor.Builder()
+          .name("table-name")
+          .displayName("Table Name")
+          .description("The name of the Iceberg table to write to.")
+          .expressionLanguageSupported(ExpressionLanguageScope.FLOWFILE_ATTRIBUTES)
+          .required(true)
+          .addValidator(StandardValidators.NON_BLANK_VALIDATOR)
           .build();
 
   public static final Relationship REL_FAILURE =
