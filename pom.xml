@@ -35,6 +35,8 @@
         <!-- This needs to match https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-aws/3.4.1 -->
         <awssdk-bundle.version>2.24.6</awssdk-bundle.version>
 
+        <cyclonedx.version>2.8.0</cyclonedx.version>
+
         <spotbugs-maven-plugin.version>4.8.6.6</spotbugs-maven-plugin.version>
         <spotbugs.version>4.9.0</spotbugs.version>
         <spotless-maven-plugin.version>2.44.2</spotless-maven-plugin.version>
@@ -122,6 +124,24 @@
                         <version>${spotbugs.version}</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.cyclonedx</groupId>
+                <artifactId>cyclonedx-maven-plugin</artifactId>
+                <version>${cyclonedx.version}</version>
+                <configuration>
+                    <projectType>application</projectType>
+                    <schemaVersion>1.5</schemaVersion>
+                    <skipNotDeployed>false</skipNotDeployed>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>makeBom</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
