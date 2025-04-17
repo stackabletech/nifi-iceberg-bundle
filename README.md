@@ -10,6 +10,10 @@ This repos is based on the [removal PR](https://github.com/apache/nifi/pull/9460
 
 ## Functionality
 
+The following NiFi versions are supported:
+
+* `2.2.0`
+
 Currently, the following features are supported:
 
 * S3 object storage support
@@ -37,7 +41,8 @@ We also have a guide how to [load custom NAR files](https://docs.stackable.tech/
 
 Loading custom NARs basically boils down to
 
-1. Run `mvn clean package` to build the needed NAR files
+1. Run `mvn -D nifi.version=2.2.0 clean package` to build the needed NAR files.
+   Please check that the NiFi version you are building for is supported and adopt the profile accordingly.
 2. Copy all `.nar` files into either
    1. The `<nifi-root-dir>/lib` folder, for Stackable `/stackable/nifi/lib/`
    2. Into any other (arbitrary) folder and instruct NiFi to pull them in via `nifi.nar.library.directory.myCustomLibs: /my-custom-folder`
