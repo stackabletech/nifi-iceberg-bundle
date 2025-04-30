@@ -22,6 +22,7 @@ import static tech.stackable.nifi.services.iceberg.IcebergCatalogProperty.*;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
 import org.apache.iceberg.CatalogProperties;
 import org.apache.iceberg.catalog.Catalog;
 import org.apache.iceberg.hive.HiveCatalog;
@@ -58,6 +59,13 @@ public class IcebergCatalogFactory {
     }
 
     final Configuration hadoopConf = new Configuration();
+    // Read Hadoop config from config files first, so that the things in the UI take precedence.
+    if (catalogService.getHadoopConfigFilePaths() != null) {
+      for (final String configFile : catalogService.getHadoopConfigFilePaths()) {
+        hadoopConf.addResource(new Path(configFile.trim()));
+      }
+    }
+
     if (catalogProperties.containsKey(S3_ENDPOINT)) {
       hadoopConf.set("fs.s3a.endpoint", (String) catalogProperties.get(S3_ENDPOINT));
     }

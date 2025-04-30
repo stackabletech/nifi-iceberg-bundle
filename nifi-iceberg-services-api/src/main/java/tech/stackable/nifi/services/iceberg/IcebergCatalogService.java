@@ -17,6 +17,7 @@
 */
 package tech.stackable.nifi.services.iceberg;
 
+import java.util.List;
 import java.util.Map;
 import org.apache.nifi.controller.ControllerService;
 
@@ -26,4 +27,6 @@ public interface IcebergCatalogService extends ControllerService {
   IcebergCatalogType getCatalogType();
 
   Map<IcebergCatalogProperty, Object> getCatalogProperties();
+
+  List<String> getHadoopConfigFilePaths();
 }

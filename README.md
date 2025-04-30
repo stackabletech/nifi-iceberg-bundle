@@ -17,6 +17,7 @@ The following NiFi versions are supported:
 Currently, the following features are supported:
 
 * S3 object storage support
+* HDFS support
 * Hive metastore as catalog implementation
 * Parquet, ORC and Avro file formats
 
@@ -27,7 +28,6 @@ The following functionality has been added over the original implementation:
 
 The following features were not carried over from the original implementation, we might consider adding them in the future (as the code should be there):
 
-* HDFS support
 * Kerberos support
 * JDBC catalog
 * Hadoop catalog
