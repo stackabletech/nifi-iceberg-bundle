@@ -19,10 +19,13 @@ package tech.stackable.nifi.services.iceberg;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSCredentialsProvider;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.nifi.components.PropertyDescriptor;
+import org.apache.nifi.components.resource.ResourceCardinality;
+import org.apache.nifi.components.resource.ResourceType;
 import org.apache.nifi.controller.AbstractControllerService;
 import org.apache.nifi.controller.ConfigurationContext;
 import org.apache.nifi.expression.ExpressionLanguageScope;
@@ -32,6 +35,7 @@ import org.apache.nifi.processors.aws.credentials.provider.service.AWSCredential
 /** Abstract class holding common properties and methods for Catalog Service implementations. */
 public abstract class AbstractCatalogService extends AbstractControllerService
     implements IcebergCatalogService {
+
   public static final PropertyDescriptor WAREHOUSE_LOCATION =
       new PropertyDescriptor.Builder()
           .name("warehouse-location")
@@ -72,14 +76,29 @@ public abstract class AbstractCatalogService extends AbstractControllerService
           .identifiesControllerService(AWSCredentialsProviderService.class)
           .build();
 
+  public static final PropertyDescriptor HADOOP_CONFIGURATION_RESOURCES =
+      new PropertyDescriptor.Builder()
+          .name("hadoop-config-resources")
+          .displayName("Hadoop Configuration Resources")
+          .description(
+              "A file, or comma separated list of files, which contain the Hadoop configuration (core-site.xml, etc.). "
+                  + "This is needed to access HDFS, S3 can be configured using dedicated config properties, which take precedence over settings from the xml files. "
+                  + "Without this, default configuration will be used.")
+          .required(false)
+          .identifiesExternalResource(ResourceCardinality.MULTIPLE, ResourceType.FILE)
+          .expressionLanguageSupported(ExpressionLanguageScope.ENVIRONMENT)
+          .build();
+
   protected static final List<PropertyDescriptor> COMMON_PROPERTIES =
       List.of(
           WAREHOUSE_LOCATION,
           S3_ENDPOINT,
           S3_PATH_STYLE_ACCESS,
-          S3_AWS_CREDENTIALS_PROVIDER_SERVICE);
+          S3_AWS_CREDENTIALS_PROVIDER_SERVICE,
+          HADOOP_CONFIGURATION_RESOURCES);
 
   protected Map<IcebergCatalogProperty, Object> catalogProperties = new HashMap<>();
+  protected List<String> hadoopConfigFilePaths = new ArrayList<>();
 
   protected void handle_common_properties(final ConfigurationContext context) {
     if (context.getProperty(WAREHOUSE_LOCATION).isSet()) {
@@ -113,10 +132,34 @@ public abstract class AbstractCatalogService extends AbstractControllerService
       catalogProperties.put(
           IcebergCatalogProperty.S3_AWS_SECRET_ACCESS_KEY, credentials.getAWSSecretKey());
     }
+
+    if (context.getProperty(HADOOP_CONFIGURATION_RESOURCES).isSet()) {
+      hadoopConfigFilePaths =
+          createFilePathList(
+              context
+                  .getProperty(HADOOP_CONFIGURATION_RESOURCES)
+                  .evaluateAttributeExpressions()
+                  .getValue());
+    }
+  }
+
+  protected List<String> createFilePathList(String configFilePaths) {
+    List<String> filePathList = new ArrayList<>();
+    if (configFilePaths != null && !configFilePaths.trim().isEmpty()) {
+      for (final String configFile : configFilePaths.split(",")) {
+        filePathList.add(configFile.trim());
+      }
+    }
+    return filePathList;
   }
 
   @Override
   public Map<IcebergCatalogProperty, Object> getCatalogProperties() {
     return catalogProperties;
+  }
+
+  @Override
+  public List<String> getHadoopConfigFilePaths() {
+    return hadoopConfigFilePaths;
   }
 }
