@@ -47,8 +47,9 @@ public class IcebergHiveCatalogService extends AbstractCatalogService {
   private static final List<PropertyDescriptor> PROPERTIES;
 
   static {
-    List<PropertyDescriptor> properties = new ArrayList<>(COMMON_PROPERTIES);
+    List<PropertyDescriptor> properties = new ArrayList<>();
     properties.add(METASTORE_URI);
+    properties.addAll(COMMON_PROPERTIES);
     PROPERTIES = Collections.unmodifiableList(properties);
   }
 
