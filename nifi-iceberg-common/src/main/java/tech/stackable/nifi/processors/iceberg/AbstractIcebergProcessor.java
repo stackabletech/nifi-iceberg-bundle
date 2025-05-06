@@ -90,7 +90,8 @@ public abstract class AbstractIcebergProcessor extends AbstractProcessor
           .name("kerberos-user-service")
           .displayName("Kerberos User Service")
           .description(
-              "Specifies the Kerberos User Controller Service that should be used for authenticating with Kerberos.")
+              "Specifies the Kerberos User Controller Service that should be used for authenticating with Kerberos." +
+                      "This authentication can be used against Hive metastore as well as HDFS")
           .identifiesControllerService(KerberosUserService.class)
           .required(false)
           .build();
@@ -99,7 +100,8 @@ public abstract class AbstractIcebergProcessor extends AbstractProcessor
       new Relationship.Builder()
           .name("failure")
           .description(
-              "A FlowFile is routed to this relationship if the operation failed and retrying the operation will also fail, such as an invalid data or schema.")
+              "A FlowFile is routed to this relationship if the operation failed and retrying the operation will also fail," +
+                      "such as an invalid data or schema.")
           .build();
 
   protected static final AtomicReference<KerberosUser> kerberosUserReference =
