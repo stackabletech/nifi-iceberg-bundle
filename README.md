@@ -24,7 +24,7 @@ Currently, the following features are supported:
 
 The following functionality has been added over the original implementation:
 
-1. You don't need to rely on an `core-site.xml` somewhere in the NiFi filesystem. Instead, we made the relevant configuration options (such as S3 endpoint, path style access etc.) configurable via the NiFi UI.
+1. You don't need to rely on an `core-site.xml` somewhere in the NiFi filesystem to use S3. Instead, we made the relevant configuration options (such as S3 endpoint, path style access etc.) configurable via the NiFi UI.
 2. We integrated with the `AWS Credentials Provider service`, so that it's easier to retrieve S3 credentials.
 
 The following features were not carried over from the original implementation:
@@ -36,16 +36,16 @@ The following features were not carried over from the original implementation:
 
 ### Load extensions in NiFI
 
-We are aiming to ship the NiFi extensions in the Stackable NiFi images by default starting with Stackable Data Platform 25.7 (there might be some security considerations).
-We also have a guide how to [load custom NAR files](https://docs.stackable.tech/home/stable/nifi/usage_guide/custom-components/custom-nars/).
+We are aiming to ship the NiFi extensions in the Stackable NiFi images by default starting with Stackable Data Platform 25.7.
+We also have a guide how to [load custom NAR files yourself](https://docs.stackable.tech/home/stable/nifi/usage_guide/custom-components/custom-nars/).
 
 Loading custom NARs basically boils down to
 
 1. Run `mvn -D nifi.version=2.2.0 clean package` to build the needed NAR files.
-   Please check that the NiFi version you are building for is supported and adopt the profile accordingly.
+   Please check that the NiFi version you are building for is supported and adopt the NiFi version accordingly.
 2. Copy all `.nar` files into either
    1. The `<nifi-root-dir>/lib` folder, for Stackable `/stackable/nifi/lib/`
-   2. Into any other (arbitrary) folder and instruct NiFi to pull them in via `nifi.nar.library.directory.myCustomLibs: /my-custom-folder`
+   2. Or into any other (arbitrary) folder and instruct NiFi to pull them in via `nifi.nar.library.directory.myCustomLibs: /my-custom-folder`
 
 ### Requirements
 
