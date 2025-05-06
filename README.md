@@ -20,15 +20,15 @@ Currently, the following features are supported:
 * HDFS support
 * Hive metastore as catalog implementation
 * Parquet, ORC and Avro file formats
+* Kerberos support (for Hive metastore and HDFS)
 
 The following functionality has been added over the original implementation:
 
 1. You don't need to rely on an `core-site.xml` somewhere in the NiFi filesystem. Instead, we made the relevant configuration options (such as S3 endpoint, path style access etc.) configurable via the NiFi UI.
 2. We integrated with the `AWS Credentials Provider service`, so that it's easier to retrieve S3 credentials.
 
-The following features were not carried over from the original implementation, we might consider adding them in the future (as the code should be there):
+The following features were not carried over from the original implementation:
 
-* Kerberos support
 * JDBC catalog
 * Hadoop catalog
 

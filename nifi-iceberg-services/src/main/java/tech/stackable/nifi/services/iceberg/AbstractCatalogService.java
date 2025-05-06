@@ -72,7 +72,7 @@ public abstract class AbstractCatalogService extends AbstractControllerService
           .name("AWS Credentials Provider service")
           .displayName("AWS Credentials Provider Service")
           .description("The Controller Service that is used to obtain AWS credentials provider")
-          .required(true)
+          .required(false)
           .identifiesControllerService(AWSCredentialsProviderService.class)
           .build();
 

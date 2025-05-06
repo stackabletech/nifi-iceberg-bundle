@@ -66,6 +66,13 @@ public class IcebergCatalogFactory {
       }
     }
 
+    //    Left in for debugging purposes
+    //    System.out.println("==== Hadoop Configuration ====");
+    //    for (Map.Entry<String, String> entry : hadoopConf) {
+    //      System.out.printf("%s = %s%n", entry.getKey(), entry.getValue());
+    //    }
+    //    System.out.println("==== End Configuration ====");
+
     if (catalogProperties.containsKey(S3_ENDPOINT)) {
       hadoopConf.set("fs.s3a.endpoint", (String) catalogProperties.get(S3_ENDPOINT));
     }

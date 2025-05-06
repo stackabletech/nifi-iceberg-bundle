@@ -18,15 +18,34 @@
 package tech.stackable.nifi.processors.iceberg;
 
 import com.google.common.base.Throwables;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
 import org.apache.nifi.flowfile.FlowFile;
 import org.apache.nifi.processor.ProcessContext;
 
 public class IcebergUtils {
+  /**
+   * Loads configuration files from the provided paths.
+   *
+   * @param configFilePaths list of config file paths separated with comma
+   * @return merged configuration
+   */
+  public static Configuration getConfigurationFromFiles(List<String> configFilePaths) {
+    final Configuration conf = new Configuration();
+    if (configFilePaths != null) {
+      for (final String configFile : configFilePaths) {
+        conf.addResource(new Path(configFile.trim()));
+      }
+    }
+    return conf;
+  }
+
   /**
    * Collects every non-blank dynamic property from the context.
    *
