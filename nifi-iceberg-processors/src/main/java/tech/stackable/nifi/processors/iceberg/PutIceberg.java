@@ -195,7 +195,8 @@ public class PutIceberg extends AbstractIcebergProcessor {
           NUMBER_OF_COMMIT_RETRIES,
           MINIMUM_COMMIT_WAIT_TIME,
           MAXIMUM_COMMIT_WAIT_TIME,
-          MAXIMUM_COMMIT_DURATION);
+          MAXIMUM_COMMIT_DURATION,
+          KERBEROS_USER_SERVICE);
 
   public static final Set<Relationship> RELATIONSHIPS = Set.of(REL_SUCCESS, REL_FAILURE);
 
