@@ -12,6 +12,10 @@ All notable changes to this project will be documented in this file.
 
 - BREAKING: Removed support for NiFi 2.2.0 ([#3])
 
+### Changed
+
+- BREAKING: When building project, the nifi versions needs to be text-replaced in the `pom.xml` ([#3])
+
 [#3]: https://github.com/stackabletech/nifi-iceberg-bundle/pull/3
 
 ## [0.3.0] - 2025-05-06
