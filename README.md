@@ -42,6 +42,7 @@ We also have a guide how to [load custom NAR files yourself](https://docs.stacka
 Loading custom NARs basically boils down to
 
 1. Run `sed -i -e 's/{{ NIFI_VERSION }}/2.4.0/g' pom.xml` to test-replace the version of the parent pom.
+   Please check that the NiFi version you are building for is supported and adopt the NiFi version accordingly.
    This is needed, as Maven is not able to evaluate `${nifi.version}` in the `project.parent.version` field.
    Maybe a future version of Maven can handle this, in that case this step can be removed.
 2. Run `mvn -D nifi.version=2.4.0 clean package` to build the needed NAR files.

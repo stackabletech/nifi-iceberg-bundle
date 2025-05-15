@@ -6,13 +6,13 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- Added support for NiFi 2.4.0 ([#X])
+- Added support for NiFi 2.4.0 ([#3])
 
 ### Removed
 
-- Removed support for NiFi 2.2.0 ([#X])
+- BREAKING: Removed support for NiFi 2.2.0 ([#3])
 
-[#X]: https://github.com/stackabletech/nifi-iceberg-bundle/pull/X
+[#3]: https://github.com/stackabletech/nifi-iceberg-bundle/pull/3
 
 ## [0.3.0] - 2025-05-06
 
