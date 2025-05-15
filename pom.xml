@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.apache.nifi</groupId>
         <artifactId>nifi-extension-bundles</artifactId>
-        <version>2.2.0</version> <!-- FIXME: Hardcoded -->
+        <version>{{ NIFI_VERSION }}</version>
     </parent>
 
     <groupId>tech.stackable.nifi</groupId>
@@ -31,7 +31,7 @@
         <!--
         Iceberg 1.9.0 does not seem to be compatible with the Avro version of NiFi:
         The needed function was added in Avro 1.12.0 (https://github.com/apache/avro/commit/ff324530251ce4facc8e8c6f3c12a1f19081c5b1)
-        NiFi 2.2.0 is on Avro 1.11.4
+        NiFi 2.4.0 is on Avro 1.11.4
         See also https://github.com/apache/iceberg/pull/12455
 
         [INFO] Running tech.stackable.nifi.processors.iceberg.TestPutIcebergWithHiveCatalog
@@ -192,7 +192,7 @@
 
     <!--
     We need to activate a profile for it to be inherited to the submodules.
-    Because of this, we don't pass the profile via `-P nifi-2.2.0`, but via `-D nifi.version=2.2.0`
+    Because of this, we don't pass the profile via `-P nifi-2.4.0`, but via `-D nifi.version=2.4.0`
 
     See https://maven.apache.org/guides/introduction/introduction-to-profiles.html#Profile_Inheritance
 
@@ -201,15 +201,15 @@
     -->
     <profiles>
         <profile>
-            <id>nifi-2.2.0</id>
+            <id>nifi-2.4.0</id>
             <activation>
                 <property>
                     <name>nifi.version</name>
-                    <value>2.2.0</value>
+                    <value>2.4.0</value>
                 </property>
             </activation>
             <properties>
-                <nifi.version>2.2.0</nifi.version>
+                <nifi.version>2.4.0</nifi.version>
                 <!-- Future dependency version can go in here -->
             </properties>
         </profile>

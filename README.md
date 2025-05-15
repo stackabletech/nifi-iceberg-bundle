@@ -12,7 +12,7 @@ This repos is based on the [removal PR](https://github.com/apache/nifi/pull/9460
 
 The following NiFi versions are supported:
 
-* `2.2.0`
+* `2.4.0`
 
 Currently, the following features are supported:
 
@@ -41,9 +41,12 @@ We also have a guide how to [load custom NAR files yourself](https://docs.stacka
 
 Loading custom NARs basically boils down to
 
-1. Run `mvn -D nifi.version=2.2.0 clean package` to build the needed NAR files.
+1. Run `sed -i -e 's/{{ NIFI_VERSION }}/2.4.0/g' pom.xml` to test-replace the version of the parent pom.
+   This is needed, as Maven is not able to evaluate `${nifi.version}` in the `project.parent.version` field.
+   Maybe a future version of Maven can handle this, in that case this step can be removed.
+2. Run `mvn -D nifi.version=2.4.0 clean package` to build the needed NAR files.
    Please check that the NiFi version you are building for is supported and adopt the NiFi version accordingly.
-2. Copy all `.nar` files into either
+3. Copy all `.nar` files into either
    1. The `<nifi-root-dir>/lib` folder, for Stackable `/stackable/nifi/lib/`
    2. Or into any other (arbitrary) folder and instruct NiFi to pull them in via `nifi.nar.library.directory.myCustomLibs: /my-custom-folder`
 
