@@ -14,7 +14,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- BREAKING: When building project, the nifi versions needs to be text-replaced in the `pom.xml` ([#3])
+- BREAKING: When building project, the NiFi versions needs to be text-replaced in the `pom.xml` ([#3])
 
 [#3]: https://github.com/stackabletech/nifi-iceberg-bundle/pull/3
 
