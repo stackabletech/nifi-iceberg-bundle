@@ -46,7 +46,7 @@ metadata:
   namespace: nifi
 spec:
   image:
-    productVersion: 2.2.0
+    productVersion: 2.4.0
   clusterConfig:
     authentication:
       - authenticationClass: nifi-users

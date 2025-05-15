@@ -3,7 +3,7 @@ set -e
 
 # Run from repo root directory!
 
-mvn -D nifi.version=2.2.0 -D cyclonedx.skip=true -D skipTests clean package
+mvn -D nifi.version=2.4.0 -D cyclonedx.skip=true -D skipTests clean package
 
 kubectl -n nifi wait --for=condition=Ready pod/nifi-node-default-0
 
