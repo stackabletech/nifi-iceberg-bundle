@@ -17,7 +17,7 @@
     <parent>
         <groupId>tech.stackable.nifi</groupId>
         <artifactId>nifi-iceberg-bundle</artifactId>
-        <version>0.0.3</version>
+        <version>0.0.4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -30,13 +30,13 @@
         <dependency>
             <groupId>tech.stackable.nifi</groupId>
             <artifactId>nifi-iceberg-services-api</artifactId>
-            <version>0.0.3</version>
+            <version>0.0.4</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>tech.stackable.nifi</groupId>
             <artifactId>nifi-iceberg-common</artifactId>
-            <version>0.0.3</version>
+            <version>0.0.4</version>
         </dependency>
 
         <dependency>
@@ -280,13 +280,13 @@
         <dependency>
             <groupId>tech.stackable.nifi</groupId>
             <artifactId>nifi-iceberg-services</artifactId>
-            <version>0.0.3</version>
+            <version>0.0.4</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>tech.stackable.nifi</groupId>
             <artifactId>nifi-iceberg-test-utils</artifactId>
-            <version>0.0.3</version>
+            <version>0.0.4</version>
             <scope>test</scope>
         </dependency>
         <dependency>

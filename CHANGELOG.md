@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.0.4] - 2025-05-15
+
 ### Added
 
 - Added support for NiFi 2.4.0 ([#3])
@@ -18,7 +20,7 @@ All notable changes to this project will be documented in this file.
 
 [#3]: https://github.com/stackabletech/nifi-iceberg-bundle/pull/3
 
-## [0.3.0] - 2025-05-06
+## [0.0.3] - 2025-05-06
 
 ### Added
 
@@ -26,7 +28,7 @@ All notable changes to this project will be documented in this file.
 
 [#2]: https://github.com/stackabletech/nifi-iceberg-bundle/pull/2
 
-## [0.2.0] - 2025-05-02
+## [0.0.2] - 2025-05-02
 
 ### Added
 
@@ -34,6 +36,6 @@ All notable changes to this project will be documented in this file.
 
 [#1]: https://github.com/stackabletech/nifi-iceberg-bundle/pull/1
 
-## [0.1.0] - 2025-04-29
+## [0.0.1] - 2025-04-29
 
 Initial version
