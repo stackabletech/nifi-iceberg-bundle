@@ -13,6 +13,7 @@ This repos is based on the [removal PR](https://github.com/apache/nifi/pull/9460
 The following NiFi versions are supported:
 
 * `2.4.0`
+* `2.6.0`
 
 Currently, the following features are supported:
 
@@ -32,11 +33,11 @@ The following features were not carried over from the original implementation:
 * JDBC catalog
 * Hadoop catalog
 
-## Usage
+## Building and usage
 
 ### Load extensions in NiFI
 
-We are aiming to ship the NiFi extensions in the Stackable NiFi images by default starting with Stackable Data Platform 25.7.
+Starting with Stackable Data Platform 25.7 we ship the NiFi extensions in the Stackable NiFi images.
 We also have a guide how to [load custom NAR files yourself](https://docs.stackable.tech/home/stable/nifi/usage_guide/custom-components/custom-nars/).
 
 Loading custom NARs basically boils down to
@@ -47,9 +48,11 @@ Loading custom NARs basically boils down to
    Maybe a future version of Maven can handle this, in that case this step can be removed.
 2. Run `mvn -D nifi.version=2.4.0 clean package` to build the needed NAR files.
    Please check that the NiFi version you are building for is supported and adopt the NiFi version accordingly.
+   Tip: NixOS users that need a more recent Maven version can use `nix run github:nixos/nixpkgs/nixos-unstable#maven -- -D nifi.version=2.4.0 clean package`
 3. Copy all `.nar` files into either
-   1. The `<nifi-root-dir>/lib` folder, for Stackable `/stackable/nifi/lib/`
-   2. Or into any other (arbitrary) folder and instruct NiFi to pull them in via `nifi.nar.library.directory.myCustomLibs: /my-custom-folder`
+   1. Tip: `find -name '*.nar'` should help you to locate the three NAR files.
+   2. The `<nifi-root-dir>/lib` folder, for Stackable `/stackable/nifi/lib/`
+   3. Or into any other (arbitrary) folder and instruct NiFi to pull them in via `nifi.nar.library.directory.myCustomLibs: /my-custom-folder`
 
 ### Requirements
 

@@ -59,7 +59,6 @@ import org.apache.iceberg.data.avro.DataWriter;
 import org.apache.iceberg.data.orc.GenericOrcReader;
 import org.apache.iceberg.data.orc.GenericOrcWriter;
 import org.apache.iceberg.data.parquet.GenericParquetReaders;
-import org.apache.iceberg.data.parquet.GenericParquetWriter;
 import org.apache.iceberg.io.CloseableIterable;
 import org.apache.iceberg.io.FileAppender;
 import org.apache.iceberg.io.InputFile;
@@ -1272,7 +1271,9 @@ public class TestIcebergRecordConverter {
     try (FileAppender<GenericRecord> appender =
         Parquet.write(outputFile)
             .schema(schema)
-            .createWriterFunc(GenericParquetWriter::buildWriter)
+            // FIXME: Once Iceberg 1.8.1 support is dropped use this
+            // .createWriterFunc(GenericParquetWriter::create)
+            .createWriterFunc(TemporaryGenericParquetWriterCompat.writerFunc(schema))
             .overwrite()
             .build()) {
       appender.add(record);
