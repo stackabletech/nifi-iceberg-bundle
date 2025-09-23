@@ -3,7 +3,6 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: nifi-admin-credentials
-  namespace: nifi
 stringData:
   admin: adminadmin
 ---
@@ -11,7 +10,6 @@ apiVersion: authentication.stackable.tech/v1alpha1
 kind: AuthenticationClass
 metadata:
   name: nifi-users
-  namespace: nifi
 spec:
   provider:
     static:
@@ -22,7 +20,6 @@ apiVersion: nifi.stackable.tech/v1alpha1
 kind: NifiCluster
 metadata:
   name: nifi
-  namespace: nifi
 spec:
   image:
     productVersion: 2.4.0
@@ -66,7 +63,6 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: nifi-processors
-  namespace: nifi
 spec:
   accessModes:
     - ReadWriteOnce
