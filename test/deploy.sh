@@ -7,14 +7,14 @@ NAMESPACE="${1:-nifi}"
 
 kubectl create namespace "$NAMESPACE" || true
 
-helm install minio \
+helm upgrade --install minio \
 --namespace "$NAMESPACE" \
---version 5.3.0 \
+--version 5.4.0 \
 --values test/minio-values.yaml \
 --repo https://charts.min.io/ minio \
 --wait
 
-helm install postgresql-hive-iceberg \
+helm upgrade --install postgresql-hive-iceberg \
 --namespace "$NAMESPACE" \
 --version 16.1.2 \
 --set auth.username=hive \
