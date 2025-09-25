@@ -7,6 +7,8 @@ NAMESPACE="${1:-nifi}"
 
 kubectl create namespace "$NAMESPACE" || true
 
+kubectl apply -n "$NAMESPACE" -f test/minio-tls.yaml
+
 helm upgrade --install minio \
 --namespace "$NAMESPACE" \
 --version 5.4.0 \

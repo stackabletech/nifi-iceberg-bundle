@@ -1,3 +1,4 @@
+# https://github.com/minio/minio/blob/RELEASE.2025-09-07T16-13-09Z/helm/minio/values.yaml
 rootUser: admin
 rootPassword: adminadmin
 mode: standalone
@@ -16,3 +17,9 @@ service:
 consoleService:
   type: NodePort
   nodePort: null
+tls:
+  enabled: true # Trino now requires this
+  ## Create a secret with private.key and public.crt files and pass that here. Ref: https://github.com/minio/minio/tree/master/docs/tls/kubernetes#2-create-kubernetes-secret
+  certSecret: minio-tls
+  publicCrt: public.crt
+  privateKey: private.key

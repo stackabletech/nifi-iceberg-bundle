@@ -22,7 +22,8 @@ metadata:
   name: nifi
 spec:
   image:
-    productVersion: 2.4.0
+    productVersion: 2.6.0
+    custom: oci.stackable.tech/sandbox/nick/nifi:2.6.0-stackable0.0.0-dev-amd64
   clusterConfig:
     authentication:
       - authenticationClass: nifi-users

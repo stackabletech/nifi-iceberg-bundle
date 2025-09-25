@@ -9,6 +9,22 @@ spec:
   accessStyle: Path
   credentials:
     secretClass: minio-s3-credentials
+  tls:
+    verification:
+      # none: {} # Trino doesn't allow skipping verification
+      server:
+        caCert:
+          secretClass: minio-tls
+---
+apiVersion: secrets.stackable.tech/v1alpha1
+kind: SecretClass
+metadata:
+  name: minio-tls
+spec:
+  backend:
+    k8sSearch:
+      searchNamespace:
+        pod: {}
 ---
 apiVersion: secrets.stackable.tech/v1alpha1
 kind: SecretClass
