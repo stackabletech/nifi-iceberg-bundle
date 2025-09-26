@@ -1,3 +1,15 @@
+---
+# Used by the S3Connection and NifCluster extraVolumes
+apiVersion: secrets.stackable.tech/v1alpha1
+kind: SecretClass
+metadata:
+  name: minio-tls
+spec:
+  backend:
+    k8sSearch:
+      searchNamespace:
+        pod: {}
+---
 apiVersion: v1
 kind: Secret
 metadata:

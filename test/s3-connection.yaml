@@ -19,16 +19,6 @@ spec:
 apiVersion: secrets.stackable.tech/v1alpha1
 kind: SecretClass
 metadata:
-  name: minio-tls
-spec:
-  backend:
-    k8sSearch:
-      searchNamespace:
-        pod: {}
----
-apiVersion: secrets.stackable.tech/v1alpha1
-kind: SecretClass
-metadata:
   name: minio-s3-credentials
 spec:
   backend:
