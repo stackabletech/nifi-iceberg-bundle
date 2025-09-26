@@ -5,7 +5,8 @@ set -e
 
 NAMESPACE="${1:-nifi}"
 
-mvn -D nifi.version=2.4.0 -D cyclonedx.skip=true -D skipTests clean package
+# nix run github:nixos/nixpkgs/nixos-unstable#maven -- -D nifi.version=2.6.0 -D cyclonedx.skip=true -D skipTests clean package
+mvn -D nifi.version=2.6.0 -D cyclonedx.skip=true -D skipTests clean package
 
 kubectl -n "$NAMESPACE" wait --for=condition=Ready pod/nifi-node-default-0
 
