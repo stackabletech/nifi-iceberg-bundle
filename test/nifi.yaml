@@ -53,9 +53,30 @@ spec:
       - name: nifi-processors
         persistentVolumeClaim:
           claimName: nifi-processors
+      - name: jvm-trust
+        ephemeral:
+          volumeClaimTemplate:
+            metadata:
+              annotations:
+                secrets.stackable.tech/class: minio-tls
+                secrets.stackable.tech/format: tls-pkcs12
+                secrets.stackable.tech/format.compatibility.tls-pkcs12.password: changeit
+            spec:
+              accessModes:
+                - ReadWriteOnce
+              resources:
+                requests:
+                  storage: "1"
+              storageClassName: secrets.stackable.tech
+              volumeMode: Filesystem
   nodes:
     roleConfig:
       listenerClass: external-unstable
+    jvmArgumentOverrides:
+      add:
+        - -Djavax.net.ssl.trustStore=/stackable/userdata/jvm-trust/truststore.p12
+        - -Djavax.net.ssl.trustStorePassword=changeit
+        - -Djavax.net.ssl.trustStoreType=pkcs12
     configOverrides:
       nifi.properties:
         nifi.nar.library.directory.myCustomLibs: "/stackable/userdata/nifi-processors/"
