@@ -16,6 +16,25 @@ spec:
       userCredentialsSecret:
         name: nifi-admin-credentials
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: caddy-config
+data:
+  Caddyfile: |
+    {
+        http_port 5000
+    }
+
+    # Strip TLS for local testing
+    http://localhost {
+        reverse_proxy https://nifi-node-default-0:8443 {
+            transport http {
+              tls_insecure_skip_verify
+            }
+        }
+    }
+---
 apiVersion: nifi.stackable.tech/v1alpha1
 kind: NifiCluster
 metadata:
@@ -42,9 +61,25 @@ spec:
         nifi.nar.library.directory.myCustomLibs: "/stackable/userdata/nifi-processors/"
         # Quicker startup
         nifi.cluster.flow.election.max.wait.time: 3 secs
-#    podOverrides:
-#      spec:
-#        containers:
+        nifi.cluster.flow.election.max.candidates: "1"
+        nifi.web.https.sni.host.check: "false"
+        nifi.web.https.sni.required: "false"
+    podOverrides:
+      spec:
+        volumes:
+          - name: caddy-config
+            configMap:
+              name: caddy-config
+        containers:
+          # This can help when you need to port-forward because the Kubernetes Nodes (and NodePorts) are inaccessible.
+          - name: reverse-proxy
+            image: caddy:latest
+            ports:
+              - containerPort: 5000
+                protocol: TCP
+            volumeMounts:
+              - name: caddy-config
+                mountPath: /etc/caddy/
 #          - name: nifi
 #            env:
 #              - name: AWS_ACCESS_KEY_ID
