@@ -1,30 +1,8 @@
-apiVersion: zookeeper.stackable.tech/v1alpha1
-kind: ZookeeperCluster
-metadata:
-  name: zookeeper
-  namespace: nifi
-spec:
-  image:
-    productVersion: 3.9.2
-  servers:
-    roleGroups:
-      default:
-        replicas: 1
----
-apiVersion: zookeeper.stackable.tech/v1alpha1
-kind: ZookeeperZnode
-metadata:
-  name: nifi-znode
-  namespace: nifi
-spec:
-  clusterRef:
-    name: zookeeper
 ---
 apiVersion: v1
 kind: Secret
 metadata:
   name: nifi-admin-credentials
-  namespace: nifi
 stringData:
   admin: adminadmin
 ---
@@ -32,42 +10,98 @@ apiVersion: authentication.stackable.tech/v1alpha1
 kind: AuthenticationClass
 metadata:
   name: nifi-users
-  namespace: nifi
 spec:
   provider:
     static:
       userCredentialsSecret:
         name: nifi-admin-credentials
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: caddy-config
+data:
+  Caddyfile: |
+    {
+        http_port 5000
+    }
+
+    # Strip TLS for local testing
+    http://localhost {
+        reverse_proxy https://nifi-node-default-0:8443 {
+            transport http {
+              tls_insecure_skip_verify
+            }
+        }
+    }
+---
 apiVersion: nifi.stackable.tech/v1alpha1
 kind: NifiCluster
 metadata:
   name: nifi
-  namespace: nifi
 spec:
   image:
-    productVersion: 2.4.0
+    productVersion: 2.6.0
+    # If you have an image that this can be tested on, add it here:
+    # custom: oci.stackable.tech/sandbox/blah/nifi:2.6.0-stackable0.0.0-dev-amd64
   clusterConfig:
     authentication:
       - authenticationClass: nifi-users
-    listenerClass: external-unstable
     sensitiveProperties:
       keySecret: nifi-sensitive-property-key
       autoGenerate: true
-    zookeeperConfigMapName: nifi-znode
     extraVolumes:
       - name: nifi-processors
         persistentVolumeClaim:
           claimName: nifi-processors
+      - name: jvm-trust
+        ephemeral:
+          volumeClaimTemplate:
+            metadata:
+              annotations:
+                secrets.stackable.tech/class: minio-tls
+                secrets.stackable.tech/format: tls-pkcs12
+                secrets.stackable.tech/format.compatibility.tls-pkcs12.password: changeit
+            spec:
+              accessModes:
+                - ReadWriteOnce
+              resources:
+                requests:
+                  storage: "1"
+              storageClassName: secrets.stackable.tech
+              volumeMode: Filesystem
   nodes:
+    roleConfig:
+      listenerClass: external-unstable
+    jvmArgumentOverrides:
+      add:
+        - -Djavax.net.ssl.trustStore=/stackable/userdata/jvm-trust/truststore.p12
+        - -Djavax.net.ssl.trustStorePassword=changeit
+        - -Djavax.net.ssl.trustStoreType=pkcs12
     configOverrides:
       nifi.properties:
         nifi.nar.library.directory.myCustomLibs: "/stackable/userdata/nifi-processors/"
         # Quicker startup
         nifi.cluster.flow.election.max.wait.time: 3 secs
-#    podOverrides:
-#      spec:
-#        containers:
+        nifi.cluster.flow.election.max.candidates: "1"
+        nifi.web.https.sni.host.check: "false"
+        nifi.web.https.sni.required: "false"
+    podOverrides:
+      spec:
+        volumes:
+          - name: caddy-config
+            configMap:
+              name: caddy-config
+        containers:
+          # This can help when you need to port-forward because the Kubernetes Nodes (and NodePorts) are inaccessible.
+          - name: reverse-proxy
+            image: caddy:latest
+            ports:
+              - containerPort: 5000
+                protocol: TCP
+            volumeMounts:
+              - name: caddy-config
+                mountPath: /etc/caddy/
 #          - name: nifi
 #            env:
 #              - name: AWS_ACCESS_KEY_ID
@@ -88,7 +122,6 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: nifi-processors
-  namespace: nifi
 spec:
   accessModes:
     - ReadWriteOnce

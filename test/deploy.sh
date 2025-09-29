@@ -3,17 +3,21 @@ set -e
 
 # Run from repo root directory!
 
-kubectl create namespace nifi || true
+NAMESPACE="${1:-nifi}"
 
-helm install minio \
---namespace nifi \
---version 5.3.0 \
+kubectl create namespace "$NAMESPACE" || true
+
+kubectl apply -n "$NAMESPACE" -f test/minio-tls.yaml
+
+helm upgrade --install minio \
+--namespace "$NAMESPACE" \
+--version 5.4.0 \
 --values test/minio-values.yaml \
 --repo https://charts.min.io/ minio \
 --wait
 
-helm install postgresql-hive-iceberg \
---namespace nifi \
+helm upgrade --install postgresql-hive-iceberg \
+--namespace "$NAMESPACE" \
 --version 16.1.2 \
 --set auth.username=hive \
 --set auth.password=hivehive \
@@ -21,7 +25,7 @@ helm install postgresql-hive-iceberg \
 --repo https://charts.bitnami.com/bitnami postgresql \
 --wait
 
-kubectl apply -f test/s3-connection.yaml
-kubectl apply -f test/hive-metastore.yaml
-kubectl apply -f test/nifi.yaml
-kubectl apply -f test/trino.yaml
+kubectl apply -n "$NAMESPACE" -f test/s3-connection.yaml
+kubectl apply -n "$NAMESPACE" -f test/hive-metastore.yaml
+kubectl apply -n "$NAMESPACE" -f test/nifi.yaml
+kubectl apply -n "$NAMESPACE" -f test/trino.yaml

@@ -2,16 +2,16 @@ apiVersion: trino.stackable.tech/v1alpha1
 kind: TrinoCluster
 metadata:
   name: trino
-  namespace: nifi
 spec:
   image:
-    productVersion: "455" # 470 requires TLS for S3...
+    productVersion: "476" # Trino >= 470 requires TLS for S3...
   clusterConfig:
     catalogLabelSelector:
       matchLabels:
         trino: trino
-    listenerClass: external-unstable
   coordinators:
+    roleConfig:
+      listenerClass: external-unstable
     roleGroups:
       default:
         replicas: 1
@@ -24,7 +24,6 @@ apiVersion: trino.stackable.tech/v1alpha1
 kind: TrinoCatalog
 metadata:
   name: iceberg
-  namespace: nifi
   labels:
     trino: trino
 spec:

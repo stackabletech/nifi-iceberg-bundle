@@ -3,7 +3,6 @@ apiVersion: hive.stackable.tech/v1alpha1
 kind: HiveCluster
 metadata:
   name: hive-iceberg
-  namespace: nifi
 spec:
   image:
     productVersion: 4.0.0
@@ -23,7 +22,6 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: postgres-credentials
-  namespace: nifi
 type: Opaque
 stringData:
   username: hive
