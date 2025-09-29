@@ -45,7 +45,6 @@ public class TemporaryGenericParquetWriterCompat {
 
   public static Function<MessageType, ParquetValueWriter<?>> writerFunc(Schema schema) {
     if (CREATE_METHOD != null) {
-      // v2
       return type -> {
         try {
           return (ParquetValueWriter<?>) CREATE_METHOD.invoke(null, schema, type);
@@ -54,7 +53,6 @@ public class TemporaryGenericParquetWriterCompat {
         }
       };
     } else {
-      // v1
       return type -> {
         try {
           return (ParquetValueWriter<?>) BUILD_METHOD.invoke(null, type);
