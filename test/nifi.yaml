@@ -42,7 +42,8 @@ metadata:
 spec:
   image:
     productVersion: 2.6.0
-    custom: oci.stackable.tech/sandbox/nick/nifi:2.6.0-stackable0.0.0-dev-amd64
+    # If you have an image that this can be tested on, add it here:
+    # custom: oci.stackable.tech/sandbox/blah/nifi:2.6.0-stackable0.0.0-dev-amd64
   clusterConfig:
     authentication:
       - authenticationClass: nifi-users

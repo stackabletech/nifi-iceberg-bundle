@@ -23,7 +23,7 @@ Testing the NARs
      - **S3 endpoint**: `https://minio:9000`
      - **S3 path style access**: `true`
      - **AWS Credentials Provider Service**: Select the one created earlier
-   - Add `GenerateFlowFile` processor with
+   - Add `GenerateFlowFile` processor with:
      - **Custom Text**: `{"hello":"world from NiFi :)"}`
    - Add a `PutIceberg` processor with:
      - **Record Reader**: Select the `JsonTreeReader` created earlier
@@ -42,4 +42,4 @@ Testing the NARs
      select * from iceberg.test."test$manifests";
      select * from iceberg.test."test$files";
      ```
-6. Repeat from step 4 if any code changes are needed.
+6. Repeat step 4 if any code changes are needed, and re-run the `GenerateFlowFile` processor.
