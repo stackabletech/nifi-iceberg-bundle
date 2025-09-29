@@ -14,8 +14,7 @@ import org.apache.parquet.schema.MessageType;
 // public static ParquetValueWriter<Record> create(Schema schema, MessageType type) {
 //
 // As we want to to be able to compile against both versions (and Java sucks at this), we need to
-// fall back to
-// reflection.
+// fall back to reflection.
 //
 // FIXME: Remove once Iceberg 1.8.1 support is dropped
 public class TemporaryGenericParquetWriterCompat {
