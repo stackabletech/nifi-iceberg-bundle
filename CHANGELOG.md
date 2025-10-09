@@ -8,23 +8,24 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- Added support for NiFi 2.4.0 ([#3])
+- Add support for NiFi `2.4.0` and `2.6.0` ([#3], [#6]).
 
 ### Removed
 
-- BREAKING: Removed support for NiFi 2.2.0 ([#3])
+- BREAKING: Remove support for NiFi 2.2.0 ([#3]).
 
 ### Changed
 
-- BREAKING: When building project, the NiFi versions needs to be text-replaced in the `pom.xml` ([#3])
+- BREAKING: When building project, the NiFi versions needs to be text-replaced in the `pom.xml` ([#3]).
 
 [#3]: https://github.com/stackabletech/nifi-iceberg-bundle/pull/3
+[#6]: https://github.com/stackabletech/nifi-iceberg-bundle/pull/6
 
 ## [0.0.3] - 2025-05-06
 
 ### Added
 
-- Added Kerberos support ([#2])
+- Add Kerberos support ([#2]).
 
 [#2]: https://github.com/stackabletech/nifi-iceberg-bundle/pull/2
 
@@ -32,7 +33,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- Added HDFS support ([#1])
+- Add HDFS support ([#1]).
 
 [#1]: https://github.com/stackabletech/nifi-iceberg-bundle/pull/1
 
