@@ -19,6 +19,10 @@ helm upgrade --install minio \
 helm upgrade --install postgresql-hive-iceberg \
 --namespace "$NAMESPACE" \
 --version 16.1.2 \
+--set image.repository=bitnamilegacy/postgresql \
+--set volumePermissions.image.repository=bitnamilegacy/os-shell \
+--set metrics.image.repository=bitnamilegacy/postgres-exporter \
+--set global.security.allowInsecureImages=true \
 --set auth.username=hive \
 --set auth.password=hivehive \
 --set auth.database=hive \

@@ -5,7 +5,7 @@ metadata:
   name: hive-iceberg
 spec:
   image:
-    productVersion: 4.0.0
+    productVersion: 4.2.0
   clusterConfig:
     database:
       connString: jdbc:postgresql://postgresql-hive-iceberg:5432/hive
