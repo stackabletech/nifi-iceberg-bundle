@@ -12,7 +12,6 @@ This repos is based on the [removal PR](https://github.com/apache/nifi/pull/9460
 
 The following NiFi versions are supported:
 
-* `2.4.0`
 * `2.6.0`
 
 Currently, the following features are supported:

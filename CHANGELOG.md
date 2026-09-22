@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Removed
+
+- BREAKING: Remove support for NiFi 2.4.0 ([#x]).
+
+## [0.0.5]
+
 ## [0.0.4] - 2025-05-15
 
 ### Added
