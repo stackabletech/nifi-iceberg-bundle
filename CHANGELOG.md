@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Removed
+
+- BREAKING: Remove support for NiFi 2.4.0 ([#13]).
+
+[#13]: https://github.com/stackabletech/nifi-iceberg-bundle/pull/13/changes
+
+## [0.0.5]
+
 ## [0.0.4] - 2025-05-15
 
 ### Added
